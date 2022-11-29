@@ -92,6 +92,22 @@ app.get('/getdata', (req, res) => {
 	})
 })
 
+app.get('/send', async (req, res) => {
+	const channel = client.channels.cache.find(channel => channel.name === req.body.channel)
+
+	const btn = new ActionRowBuilder()
+			.addComponents(
+				new ButtonBuilder()
+					.setCustomId('primary')
+					.setLabel(req.body.btn_text)
+					.setStyle(ButtonStyle.Primary),
+			);
+	await channel.send({content: req.body.text, files: [req.body.imageURL], components: [btn]})
+	res.status(200).json({
+		message: "Sent"
+	});
+})
+
 app.listen(5000, () => console.log("Server Started"));
 
 client.login(process.env.token);
