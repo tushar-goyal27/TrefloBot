@@ -8,16 +8,22 @@ module.exports = {
 		.setDescription('Send Post to any channel.')
 		.addChannelOption(option =>
 			option.setName('channel')
-				.setDescription('The channel to send post to'))
+				.setDescription('The channel to send post to')
+				.setRequired(true))
 		.addStringOption(option => 
 			option.setName('text')
-			.setDescription('Text to send'))
+				.setDescription('Text to send')
+				.setRequired(true))
+				
 		.addStringOption(option => 
 			option.setName('url')
-			.setDescription('url'))
+				.setDescription('url')
+				.setRequired(true))
+				
 		.addStringOption(option => 
 			option.setName('button_text')
-			.setDescription('Button Text to send')),
+				.setDescription('Button Text to send')
+				.setRequired(true)),
 		
 	async execute(interaction) {
 		const channelName = interaction.options.getChannel('channel');
