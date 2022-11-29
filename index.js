@@ -2,16 +2,17 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const { Client, Events, GatewayIntentBits, Collection, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
-const { token, DB_CONNECTION } = require('./config.json');
+// const { token, DB_CONNECTION } = require('./config.json');
 
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+require("dotenv/config");
 
 const DCUser = require("./models/User");
 
 // Connect to the Database
-mongoose.connect(DB_CONNECTION, () => {
+mongoose.connect(process.env.DB_CONNECTION, () => {
 	console.log("Connected to DB");
 })
 
@@ -89,5 +90,5 @@ app.get('/getdata', (req, res) => {
 
 app.listen(5000, () => console.log("Server Started"));
 
-client.login(token);
+client.login(process.env.token);
 module.exports = app;
