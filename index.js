@@ -64,32 +64,44 @@ app.get('/', async (req, res) => {
 
 // Send route
 app.post('/send', async (req, res) => {
-	const channel = client.channels.cache.find(channel => channel.name === req.body.channel)
-
-	const btn = new ActionRowBuilder()
-			.addComponents(
-				new ButtonBuilder()
-					.setCustomId('primary')
-					.setLabel(req.body.btn_text)
-					.setStyle(ButtonStyle.Primary),
-			);
-	await channel.send({content: req.body.text, files: [req.body.imageURL], components: [btn]})
-	res.status(200).json({
-		message: "Sent"
-	});
+	try {
+		const channel = client.channels.cache.find(channel => channel.name === req.body.channel)
+		const btn = new ActionRowBuilder()
+				.addComponents(
+					new ButtonBuilder()
+						.setCustomId('primary')
+						.setLabel(req.body.btn_text)
+						.setStyle(ButtonStyle.Primary),
+				);
+		await channel.send({content: req.body.text, files: [req.body.imageURL], components: [btn]})
+		res.status(200).json({
+			message: "Sent"
+		});
+	} catch (err) {
+		res.status(404).json({
+			message: "error"
+		})
+	}
+	
 })
 
 // Get all users
 app.get('/getdata', (req, res) => {
-	DCUser.find({}, (err, users) => {
-		var allusers = [];
-
-		users.forEach((user) => {
-		allusers.push(user);
-		});
-
-    	res.send(allusers);
-	})
+	try {
+		DCUser.find({}, (err, users) => {
+			var allusers = [];
+	
+			users.forEach((user) => {
+			allusers.push(user);
+			});
+	
+			res.send(allusers);
+		})
+	} catch (err) {
+		res.status(404).json({
+			message: "error"
+		})
+	}
 })
 
 // app.get('/send', async (req, res) => {

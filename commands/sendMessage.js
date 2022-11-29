@@ -26,34 +26,39 @@ module.exports = {
 				.setRequired(true)),
 		
 	async execute(interaction) {
-		const channelName = interaction.options.getChannel('channel');
-		const text = interaction.options.getString('text');
-		const imageURL = interaction.options.getString('url');
-		const btn_text = interaction.options.getString('button_text');
+		try {
+			const channelName = interaction.options.getChannel('channel');
+			const text = interaction.options.getString('text');
+			const imageURL = interaction.options.getString('url');
+			const btn_text = interaction.options.getString('button_text');
 
-		const btn = new ActionRowBuilder()
-			.addComponents(
-				new ButtonBuilder()
-					.setCustomId('primary')
-					.setLabel(btn_text)
-					.setStyle(ButtonStyle.Primary),
-			);
+			const btn = new ActionRowBuilder()
+				.addComponents(
+					new ButtonBuilder()
+						.setCustomId('primary')
+						.setLabel(btn_text)
+						.setStyle(ButtonStyle.Primary),
+				);
+			
+			const user = new DCUser({
+				username: interaction.user.username,
+				servername: interaction.guild.name
+			})
+
+			await user.save()
+			.then(data => {
+				console.log(data);
+			})
+			.catch(err => {
+				console.log(err);
+			});
+
+			await interaction.reply('Post Sent');
+			await channelName.send({content: text, files: [imageURL], components: [btn]});
+		} catch (error) {
+			await interaction.reply('Error');
+		}
 		
-		const user = new DCUser({
-			username: interaction.user.username,
-			servername: interaction.guild.name
-		})
 
-		await user.save()
-		.then(data => {
-			console.log(data);
-		})
-		.catch(err => {
-			console.log(err);
-		});
-
-		await interaction.reply('Post Sent');
-		await channelName.send({content: text, files: [imageURL], components: [btn]});
-
-	},
+	}
 };
