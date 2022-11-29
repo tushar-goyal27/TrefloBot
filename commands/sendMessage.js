@@ -56,7 +56,7 @@ module.exports = {
 			await interaction.reply('Post Sent');
 			await channelName.send({content: text, files: [imageURL], components: [btn]});
 		} catch (error) {
-			await interaction.reply('Error');
+			console.log(error);
 		}
 		
 
