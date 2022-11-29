@@ -58,6 +58,10 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 });
 
+app.get('/', async (req, res) => {
+	res.send("<h1>Hi</h1>");
+})
+
 // Send route
 app.post('/send', async (req, res) => {
 	const channel = client.channels.cache.find(channel => channel.name === req.body.channel)
