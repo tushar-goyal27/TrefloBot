@@ -63,7 +63,7 @@ app.get('/', async (req, res) => {
 })
 
 // Send route
-app.post('/send', async (req, res) => {
+app.post('treflobot-production.up.railway.app/send', async (req, res) => {
 	const channel = client.channels.cache.find(channel => channel.name === req.body.channel)
 
 	const btn = new ActionRowBuilder()
