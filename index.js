@@ -63,7 +63,36 @@ app.get('/', async (req, res) => {
 })
 
 // Send route
-app.post('treflobot-production.up.railway.app/send', async (req, res) => {
+// app.post('/send', async (req, res) => {
+// 	const channel = client.channels.cache.find(channel => channel.name === req.body.channel)
+
+// 	const btn = new ActionRowBuilder()
+// 			.addComponents(
+// 				new ButtonBuilder()
+// 					.setCustomId('primary')
+// 					.setLabel(req.body.btn_text)
+// 					.setStyle(ButtonStyle.Primary),
+// 			);
+// 	await channel.send({content: req.body.text, files: [req.body.imageURL], components: [btn]})
+// 	res.status(200).json({
+// 		message: "Sent"
+// 	});
+// })
+
+// Get all users
+app.get('/getdata', (req, res) => {
+	DCUser.find({}, (err, users) => {
+		var allusers = [];
+
+		users.forEach((user) => {
+		allusers.push(user);
+		});
+
+    	res.send(allusers);
+	})
+})
+
+app.get('/send', async (req, res) => {
 	const channel = client.channels.cache.find(channel => channel.name === req.body.channel)
 
 	const btn = new ActionRowBuilder()
@@ -79,34 +108,6 @@ app.post('treflobot-production.up.railway.app/send', async (req, res) => {
 	});
 })
 
-// Get all users
-app.get('/getdata', (req, res) => {
-	DCUser.find({}, (err, users) => {
-		var allusers = [];
-
-		users.forEach((user) => {
-		allusers.push(user);
-		});
-
-    	res.send(allusers);
-	})
-})
-
-// app.get('/send', async (req, res) => {
-// 	const channel = client.channels.cache.find(channel => channel.name === req.body.channel)
-
-// 	const btn = new ActionRowBuilder()
-// 			.addComponents(
-// 				new ButtonBuilder()
-// 					.setCustomId('primary')
-// 					.setLabel(req.body.btn_text)
-// 					.setStyle(ButtonStyle.Primary),
-// 			);
-// 	await channel.send({content: req.body.text, files: [req.body.imageURL], components: [btn]})
-// 	res.status(200).json({
-// 		message: "Sent"
-// 	});
-// })
 
 app.listen(5000, () => console.log("Server Started"));
 
